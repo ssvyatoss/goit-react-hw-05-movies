@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useHttp } from 'components/hooks/useHttp';
 import { fetchTrendingMovies } from 'services/api';
-import { Link } from 'react-router-dom';
+import { MoviesList } from 'components/MoviesList/MoviesList';
 
-export const Home = () => {
+const Home = () => {
   const [movies, setMovies] = useHttp(fetchTrendingMovies);
 
   useEffect(() => {
@@ -11,13 +11,11 @@ export const Home = () => {
   }, [setMovies]);
 
   return (
-    <ul>
-      <h1>Trending today</h1>
-      {movies.map(movie => (
-        <li key={movie.id}>
-          <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-        </li>
-      ))}
-    </ul>
+    <>
+    <h1>Trending today</h1>
+    <MoviesList movies={movies}/>
+    </>
   );
 };
+
+export default Home;

@@ -29,32 +29,32 @@ export const fetchSearchMovies = async (keyword) => {
   return searchMovies;
 };
 
-export const fetchMovieDetails = async () => {
-    const res = await axios.get(`${BASE_URL}/movie/movie_id?language=en-US`,
+export const fetchMovieDetails = async (id) => {
+    const res = await axios.get(`${BASE_URL}/movie/${id}?language=en-US`,
     {
         params: {
             api_key: API_KEY,
         }
     });
-
-    const movieDetails = res.data.results;
+    console.log('res.data', res.data)
+    const movieDetails = res.data;
     return movieDetails;
 };
 
-export const fetchMovieCredits = async () => {
-    const res = await axios.get(`${BASE_URL}/movie/movie_id/credits?language=en-US`,
+export const fetchMovieCredits = async (id) => {
+    const res = await axios.get(`${BASE_URL}/movie/${id}/credits?language=en-US`,
     {
         params: {
             api_key: API_KEY,
         }
     });
 
-    const movieCredits = res.data.results;
+    const movieCredits = res.data.cast;
     return movieCredits;
 };
 
-export const fetchMovieReviews = async () => {
-    const res = await axios.get(`${BASE_URL}/movie/movie_id/reviews?language=en-US&page=1`,
+export const fetchMovieReviews = async (id) => {
+    const res = await axios.get(`${BASE_URL}/movie/${id}/reviews?language=en-US&page=1`,
     {
         params: {
             api_key: API_KEY,

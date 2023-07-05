@@ -1,26 +1,28 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useHttp } from 'components/hooks/useHttp';
 import { fetchMovieCredits } from 'services/api';
+import placeholderImage from '../../placeholderImage/966-9665317_placeholder-image-person-jpg.png';
 
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
-  const [cast, setCast] = useHttp(fetchMovieCredits, [movieId]);
-
-  useEffect(() => {
-    setCast(movieId);
-  }, [movieId, setCast]);
-
+  const [cast] = useHttp(fetchMovieCredits, movieId);
+  console.log('cast', cast);
   return (
-    <div>
-      <h2>Cast</h2>
+    <ul>
       {cast.map(member => (
-        <div key={member.id}>
-          <h3>{member.name}</h3>
-          <p>{member.role}</p>
-        </div>
+        <li key={member.id}>
+            <img
+              src={member.profile_path ? `https://image.tmdb.org/t/p/w200${member.profile_path}` : placeholderImage} width='200px'
+              alt={member.name}
+            />
+          <p>{member.name}</p>
+          <p>{member.character}</p>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
+
+export default Cast;

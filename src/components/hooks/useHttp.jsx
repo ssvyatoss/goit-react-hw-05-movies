@@ -8,5 +8,6 @@ export const useHttp = (apiFn, params) => {
       .then(res => setData(res))
       .catch(() => toast.error(`${params} went wrong!`));
   }, [apiFn, params]);
+  console.log('data', data);
   return [data, setData];
 };

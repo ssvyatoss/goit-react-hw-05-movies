@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHttp } from 'components/hooks/useHttp';
 import { fetchSearchMovies } from 'services/api';
-import { Link } from 'react-router-dom';
+import { MoviesList } from 'components/MoviesList/MoviesList';
+import { useSearchParams } from 'react-router-dom';
+import { SearchForm } from 'components/SearchForm/SearchForm ';
 
-export const Movies = () => {
-    const [keyword, setKeyword] = useState('');
-    const [movies, setMovies] = useHttp(fetchSearchMovies, keyword);
-  
-    const handleSearch = () => {
-      setMovies(keyword);
-    };
-  
-    return (
-      <div>
-        <h2>Search Movies</h2>
-        <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-        <button onClick={handleSearch}>Search</button>
-  
-        {movies && movies.length > 0 ? (
-          <ul>
-            {movies.map((movie) => (
-              <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div>No movies found.</div>
-        )}
-      </div>
-    );
+const Movies = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const keyword = searchParams.get("value");
+  const [movies] = useHttp(fetchSearchMovies, keyword);
+
+  const handleSearch = (value) => {
+    setSearchParams({ value });
   };
+
+  console.log('movies', movies);
+  return (
+    <>
+      <SearchForm onSubmit={handleSearch} />
+      <MoviesList movies={movies} />
+    </>
+  );
+};
+
+export default Movies;

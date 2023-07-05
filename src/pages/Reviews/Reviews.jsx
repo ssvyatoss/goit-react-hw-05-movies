@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useHttp } from 'components/hooks/useHttp';
 import { fetchMovieReviews } from 'services/api';
 
 
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId } = useParams();
-  const [reviews, setReviews] = useHttp(fetchMovieReviews, [movieId]);
+  const [reviews] = useHttp(fetchMovieReviews, movieId);
 
-  useEffect(() => {
-    setReviews(movieId);
-  }, [movieId, setReviews]);
-
+  console.log('Reviews', reviews)
+  if (!reviews) {
+    return <p>We don`t have any reviews</p>;
+  }
   return (
-    <div>
-      <h2>Reviews</h2>
+    <ul>
       {reviews.map(review => (
-        <div key={review.id}>
-          <h3>{review.reviewerName}</h3>
-          <p>Rating: {review.rating}</p>
-          <p>{review.comment}</p>
-        </div>
+        <li key={review.id}>
+          <h3>{review.author}</h3>
+          <p>{review.content}</p>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
+
+export default Reviews;
